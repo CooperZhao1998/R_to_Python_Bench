@@ -17,18 +17,19 @@ def normalize_boolean_series(s):
             return lowered.map({"true": True, "false": False}).astype("boolean")
     return s
 
+def try_numeric(s):
+    """Try to coerce a Series to numeric. If fails, return None."""
+    try:
+        return pd.to_numeric(s, errors="raise")
+    except Exception:
+        return None
+
 def align_types(a, b):
     for col in a.columns:
-        if col not in b.columns: continue
+        if col not in b.columns:
+            continue
         a[col] = normalize_boolean_series(a[col])
         b[col] = normalize_boolean_series(b[col])
-        # Attempt numeric coercion if both columns can be parsed as numeric
-        try:
-            a_num = pd.to_numeric(a[col], errors="raise")
-            b_num = pd.to_numeric(b[col], errors="raise")
-            a[col], b[col] = a_num, b_num
-        except Exception:
-            pass
     return a, b
 
 def df_equal(a, b, float_tol=1e-9):
@@ -38,22 +39,31 @@ def df_equal(a, b, float_tol=1e-9):
         return False, "row count mismatch"
     if a.shape != b.shape:
         return False, "shape mismatch"
+
     for col in a.columns:
         av, bv = a[col], b[col]
         av, bv = align_types(av.to_frame(), bv.to_frame())
         av, bv = av[col], bv[col]
-        # NA placement
+
+        # NA placement must match
         if not av.isna().equals(bv.isna()):
             return False, f"NA placement mismatch in `{col}`"
-        # Floats with tolerance
-        if pd.api.types.is_float_dtype(av) and pd.api.types.is_float_dtype(bv):
-            if not np.allclose(av.astype(float).fillna(np.nan),
-                               bv.astype(float).fillna(np.nan),
+
+        # Try to compare as numeric if possible (treat "15", "15.0" same as 15)
+        av_num, bv_num = try_numeric(av.dropna()), try_numeric(bv.dropna())
+        if av_num is not None and bv_num is not None:
+            av_num = pd.to_numeric(av, errors="coerce")
+            bv_num = pd.to_numeric(bv, errors="coerce")
+            if not np.allclose(av_num.astype(float).fillna(np.nan),
+                               bv_num.astype(float).fillna(np.nan),
                                equal_nan=True, rtol=0, atol=float_tol):
-                return False, f"value mismatch in float col `{col}`"
-        else:
-            if not av.equals(bv):
-                return False, f"value/type mismatch in `{col}`"
+                return False, f"value mismatch in numeric col `{col}`"
+            continue
+
+        # Otherwise compare exact
+        if not av.equals(bv):
+            return False, f"value/type mismatch in `{col}`"
+
     return True, ""
 
 def main():
@@ -72,9 +82,11 @@ def main():
         got = read_csv_any(ai_path)
         ok, why = df_equal(got, exp)
         results.append({"id": k, "name": item["name"], "passed": bool(ok), "reason": "" if ok else why})
+
     df = pd.DataFrame(results)
     print(df.to_string(index=False))
     score = df["passed"].mean() * 100 if len(df) else 0.0
-    print(f"\\nScore: {score:.1f}%")
+    print(f"\nScore: {score:.1f}%")
+
 if __name__ == "__main__":
     main()
