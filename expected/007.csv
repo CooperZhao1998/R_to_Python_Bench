@@ -1,0 +1,11 @@
+id,text_clean,has_email,email_domain,word_count
+1,hello world!,FALSE,,2
+2,contact me at cooper.zhao@example.com,TRUE,example.com,4
+3,"regex: a1b2c3, a-b-c, a_b_c",FALSE,,4
+4,tabs and spaces,FALSE,,3
+5,email: foo+bar@sub.domain.co.uk; and another test@nyu.edu,TRUE,sub.domain.co.uk,5
+6,"mixed case, punctuation!!!",FALSE,,3
+7,www.site.com is not email,FALSE,,4
+8,中文 mixed 英文 spaces,FALSE,,4
+9,trailing,FALSE,,1
+10,upper lower title,FALSE,,3
