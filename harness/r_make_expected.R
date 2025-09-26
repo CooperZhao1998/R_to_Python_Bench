@@ -1,0 +1,13 @@
+# Run in R to create all expected parquet files
+# install.packages(c("arrow","dplyr","tidyr","lubridate","readr"))
+source("tasks/001_select_filter.R")
+source("tasks/002_groupby_summarise.R")
+source("tasks/003_mutate_case_when.R")
+source("tasks/004_join_left.R")
+source("tasks/005_join_semi.R")
+source("tasks/006_join_anti.R")
+source("tasks/007_pivot_longer_wider.R")
+source("tasks/008_window_rank.R")
+source("tasks/009_dates_tz.R")
+source("tasks/010_listcols_explode.R")
+cat("All expected/*.parquet generated.\\n")

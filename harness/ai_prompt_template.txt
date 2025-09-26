@@ -1,0 +1,12 @@
+Convert the following R (tidyverse) code to Python (choose Pandas OR Polars; prefer {LIB}).
+Constraints:
+1) Read input only from files in data/ (CSV or Parquet) and write nothing.
+2) Produce a single DataFrame variable named out.
+3) Match column order, row order, dtypes, NA placement, and factor/category levels exactly (ordered where applicable).
+4) Use vectorized operations; no loops unless unavoidable.
+5) Implement semi/anti joins correctly if present.
+6) If behavior is ambiguous (regex, tz), state the assumption in comments and mirror R’s output.
+R code:
+```r
+{R_TASK}
+```

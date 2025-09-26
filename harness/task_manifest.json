@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "select + filter"
+  },
+  {
+    "id": 2,
+    "name": "groupby + summarise"
+  },
+  {
+    "id": 3,
+    "name": "mutate + case_when"
+  },
+  {
+    "id": 4,
+    "name": "join: left"
+  },
+  {
+    "id": 5,
+    "name": "join: semi"
+  },
+  {
+    "id": 6,
+    "name": "join: anti"
+  },
+  {
+    "id": 7,
+    "name": "pivot longer/wider"
+  },
+  {
+    "id": 8,
+    "name": "window: row_number top-3 per group"
+  },
+  {
+    "id": 9,
+    "name": "dates + tz aggregations"
+  },
+  {
+    "id": 10,
+    "name": "list-cols + explode"
+  }
+]
