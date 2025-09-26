@@ -1,14 +1,55 @@
-Convert the following R (tidyverse) code to Python (Pandas OR Polars; prefer {LIB}).
-STRICT REQUIREMENTS:
-1) Read inputs ONLY from CSVs in `data/` (do not write anything under `data/`).
-2) Produce the final output as a CSV file at EXACT path `ai_outputs/{TASK_ID}.csv` (no index column).
-3) Match column order, row order, NA placement, and types as closely as possible (booleans may be TRUE/FALSE or True/False).
-4) Use vectorized operations; avoid loops unless unavoidable.
-5) For joins, implement exact semantics (inner/left/right). For windows, mirror `row_number/dense_rank` behavior.
-6) If behavior is ambiguous (regex, tz), state the assumption in comments and mirror R output strings.
+You are given 10 R (tidyverse) task scripts located in the `tasks/` folder.  
+Your job: convert **each R script** into a separate Python script (Pandas OR Polars; prefer {LIB}) and save them into the folder `python_task/` with the same zero-padded filename convention.  
 
-Replace `{TASK_ID}` with a zero-padded id like 001, 002, ..., 010.
-R code:
+STRICT REQUIREMENTS:
+1) Each Python script must:
+   - Read inputs ONLY from CSVs in `data/` (do not write anything under `data/`).
+   - Produce the final output as a CSV file at EXACT path `ai_outputs/{TASK_ID}.csv` (no index column).
+   - Match column order, row order, NA placement, and types as closely as possible (booleans may be TRUE/FALSE or True/False).
+   - Use vectorized operations; avoid loops unless unavoidable.
+   - For joins, implement exact semantics (inner/left/right). For window functions, mirror `row_number/dense_rank` behavior.
+   - If behavior is ambiguous (regex, tz), state the assumption in comments and mirror R output strings.
+
+2) Replace `{TASK_ID}` with a zero-padded id like `001`, `002`, ..., `010` that matches the R script name.
+
+3) Output format:
+   - Provide 10 separate Python code blocks in your answer.
+   - Each block should start with a comment header like:
+     ```python
+     # python_task/001.py
+     ```
+   - Then the full Python code.  
+   - Each script must call `.to_csv("ai_outputs/{TASK_ID}.csv", index=False)` to save results.
+
+Here are the 10 R scripts to convert:
+
 ```r
-{R_TASK}
-```
+# 001_select_filter.R
+{R_TASK_001}
+
+# 002_groupby_aggregate.R
+{R_TASK_002}
+
+# 003_missing_value_handle.R
+{R_TASK_003}
+
+# 004_join_inner_left_right.R
+{R_TASK_004}
+
+# 005_pivot.R
+{R_TASK_005}
+
+# 006_window_function.R
+{R_TASK_006}
+
+# 007_string_handling.R
+{R_TASK_007}
+
+# 008_date_type_handling.R
+{R_TASK_008}
+
+# 009_conditional_column_creation.R
+{R_TASK_009}
+
+# 010_dataframe_calculation_append.R
+{R_TASK_010}
