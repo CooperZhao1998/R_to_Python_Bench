@@ -25,6 +25,13 @@ def try_numeric(s):
     except Exception:
         return None
 
+def try_datetime(s):
+    """Try to coerce a Series to datetime. If fails, return None."""
+    try:
+        return pd.to_datetime(s, errors="raise")
+    except Exception:
+        return None
+
 def align_types(a, b):
     for col in a.columns:
         if col not in b.columns:
@@ -50,7 +57,16 @@ def df_equal(a, b, float_tol=1e-9):
         if not av.isna().equals(bv.isna()):
             return False, f"NA placement mismatch in `{col}`"
 
-        # Try numeric coercion on both columns
+        # Try datetime coercion (compare only dates, ignore hh:mm:ss)
+        av_dt, bv_dt = try_datetime(av.dropna()), try_datetime(bv.dropna())
+        if av_dt is not None and bv_dt is not None:
+            av_dt = pd.to_datetime(av, errors="coerce").dt.date
+            bv_dt = pd.to_datetime(bv, errors="coerce").dt.date
+            if not av_dt.equals(bv_dt):
+                return False, f"date mismatch in datetime col `{col}`"
+            continue
+
+        # Try numeric coercion
         av_num, bv_num = try_numeric(av.dropna()), try_numeric(bv.dropna())
         if av_num is not None and bv_num is not None:
             av_num = pd.to_numeric(av, errors="coerce")
