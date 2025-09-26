@@ -1,11 +1,13 @@
-Convert the following R (tidyverse) code to Python (choose Pandas OR Polars; prefer {LIB}).
-Constraints:
-1) Read input only from files in data/ (CSV or Parquet) and write nothing.
-2) Produce a single DataFrame variable named out.
-3) Match column order, row order, dtypes, NA placement, and factor/category levels exactly (ordered where applicable).
-4) Use vectorized operations; no loops unless unavoidable.
-5) Implement semi/anti joins correctly if present.
-6) If behavior is ambiguous (regex, tz), state the assumption in comments and mirror R’s output.
+Convert the following R (tidyverse) code to Python (Pandas OR Polars; prefer {LIB}).
+STRICT REQUIREMENTS:
+1) Read inputs ONLY from CSVs in `data/` (do not write anything under `data/`).
+2) Produce the final output as a CSV file at EXACT path `ai_outputs/{TASK_ID}.csv` (no index column).
+3) Match column order, row order, NA placement, and types as closely as possible (booleans may be TRUE/FALSE or True/False).
+4) Use vectorized operations; avoid loops unless unavoidable.
+5) For joins, implement exact semantics (inner/left/right). For windows, mirror `row_number/dense_rank` behavior.
+6) If behavior is ambiguous (regex, tz), state the assumption in comments and mirror R output strings.
+
+Replace `{TASK_ID}` with a zero-padded id like 001, 002, ..., 010.
 R code:
 ```r
 {R_TASK}

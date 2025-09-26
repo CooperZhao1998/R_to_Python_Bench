@@ -5,38 +5,38 @@
   },
   {
     "id": 2,
-    "name": "groupby + summarise"
+    "name": "groupby + aggregate"
   },
   {
     "id": 3,
-    "name": "mutate + case_when"
+    "name": "missing value handle"
   },
   {
     "id": 4,
-    "name": "join: left"
+    "name": "join: inner/left/right"
   },
   {
     "id": 5,
-    "name": "join: semi"
+    "name": "pivot"
   },
   {
     "id": 6,
-    "name": "join: anti"
+    "name": "window function"
   },
   {
     "id": 7,
-    "name": "pivot longer/wider"
+    "name": "string handling"
   },
   {
     "id": 8,
-    "name": "window: row_number top-3 per group"
+    "name": "date type handling"
   },
   {
     "id": 9,
-    "name": "dates + tz aggregations"
+    "name": "conditional column creation"
   },
   {
     "id": 10,
-    "name": "list-cols + explode"
+    "name": "dataframe calculation and append"
   }
 ]

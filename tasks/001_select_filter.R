@@ -1,8 +1,9 @@
 
-library(dplyr); library(arrow); library(readr)
+# Task 1: select + filter  -> expected/001.csv
+library(dplyr); library(readr)
 df <- read_csv("data/flights.csv", show_col_types = FALSE)
 out <- df %>%
-  select(carrier, dep_delay, arr_delay) %>%
+  select(carrier, dep_delay, arr_delay, dest) %>%
   filter(!is.na(dep_delay), dep_delay > 10, arr_delay <= 60) %>%
-  arrange(carrier, dep_delay)
-write_parquet(out, "expected/001.parquet")
+  arrange(carrier, dep_delay, dest)
+write_csv(out, "expected/001.csv", na = "")

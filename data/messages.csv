@@ -1,0 +1,11 @@
+id,text
+1, Hello  WORLD!  
+2,contact me at Cooper.Zhao@example.com 
+3,"regex: a1b2c3, a-b-c, A_B_C  "
+4,  tabs	and  spaces   
+5,Email: foo+bar@sub.domain.co.uk; and another test@nyu.edu  
+6,"MIXED Case, punctuation!!!  "
+7,www.site.com is not email
+8,中文 Mixed 英文 spaces  
+9,  trailing   
+10,UPPER lower Title
