@@ -1,4 +1,5 @@
 import subprocess
+import sys
 from pathlib import Path
 
 harness_dir = Path(__file__).resolve().parent
@@ -12,6 +13,6 @@ print("Running all Python tasks...")
 
 for script in sorted(python_task.glob("*.py")):
     print(f"Executing {script.relative_to(root)} ...")
-    subprocess.run(["python", str(script)], check=True)
+    subprocess.run([sys.executable, str(script)], check=True)
 
 print("All tasks executed. Outputs are in ai_outputs/")
