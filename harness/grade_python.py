@@ -1,6 +1,7 @@
 # Run: `python harness/grade_python.py`
 import json, pandas as pd, numpy as np
 from pathlib import Path
+import sys
 
 MANIFEST = json.loads(Path("harness/task_manifest.json").read_text())
 
@@ -49,7 +50,7 @@ def df_equal(a, b, float_tol=1e-9):
         if not av.isna().equals(bv.isna()):
             return False, f"NA placement mismatch in `{col}`"
 
-        # Try to compare as numeric if possible (treat "15", "15.0" same as 15)
+        # Try numeric coercion on both columns
         av_num, bv_num = try_numeric(av.dropna()), try_numeric(bv.dropna())
         if av_num is not None and bv_num is not None:
             av_num = pd.to_numeric(av, errors="coerce")
@@ -84,9 +85,20 @@ def main():
         results.append({"id": k, "name": item["name"], "passed": bool(ok), "reason": "" if ok else why})
 
     df = pd.DataFrame(results)
-    print(df.to_string(index=False))
     score = df["passed"].mean() * 100 if len(df) else 0.0
-    print(f"\nScore: {score:.1f}%")
+
+    output_text = []
+    output_text.append(df.to_string(index=False))
+    output_text.append(f"\nScore: {score:.1f}%")
+    full_output = "\n".join(output_text)
+
+    # Print to terminal
+    print(full_output)
+
+    # Write to file
+    out_file = Path("harness/grading_result.txt")
+    out_file.write_text(full_output)
+    print(f"\nResults written to {out_file}")
 
 if __name__ == "__main__":
     main()
